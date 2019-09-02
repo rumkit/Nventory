@@ -7,21 +7,13 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    @*<li class="nav-item">
-        <a class="nav-link text-dark" >Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>*@
-    <div class="user-area dropdown float-right">
+   <div class="user-area dropdown float-right">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
+            <img class="user-avatar rounded-circle" src="/images/admin.jpg" alt="User Avatar">
         </a>
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <div class="user-menu dropdown-menu">
-                <div class="alert-info"><i class="fa fa-user-circle"></i>@User.Identity.Name</div>
+                <div class="alert-info text-center">@User.Identity.Name</div>
 
                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fa fa-user"></i> My Profile</a>
 

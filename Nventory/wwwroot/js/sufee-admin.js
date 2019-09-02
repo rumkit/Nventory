@@ -10,9 +10,13 @@ jQuery(document).ready(function($) {
 
 	jQuery('.selectpicker').selectpicker;
 
+    if (Cookies.get("menuCollapsed") == 'true') {
+       $('body').addClass("open");
+    } 
 
 	$('#menuToggle').on('click', function(event) {
-		$('body').toggleClass('open');
+        $('body').toggleClass('open');
+        Cookies.set("menuCollapsed", $('body').hasClass('open'));
 	});
 
 	$('.search-trigger').on('click', function(event) {
@@ -26,13 +30,5 @@ jQuery(document).ready(function($) {
 		event.stopPropagation();
 		$('.search-trigger').parent('.header-left').removeClass('open');
 	});
-
-	// $('.user-area> a').on('click', function(event) {
-	// 	event.preventDefault();
-	// 	event.stopPropagation();
-	// 	$('.user-menu').parent().removeClass('open');
-	// 	$('.user-menu').parent().toggleClass('open');
-	// });
-
 
 });
