@@ -10,10 +10,6 @@ jQuery(document).ready(function($) {
 
 	jQuery('.selectpicker').selectpicker;
 
-    if (Cookies.get("menuCollapsed") == 'true') {
-       $('body').addClass("open");
-    } 
-
 	$('#menuToggle').on('click', function(event) {
         $('body').toggleClass('open');
         Cookies.set("menuCollapsed", $('body').hasClass('open'));
