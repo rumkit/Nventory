@@ -14,15 +14,16 @@ namespace Nventory.Controllers
     [Authorize(Roles = "Admin")]
     public class ManageUsersController : Controller
     {
-        private UserManager<NventoryUser> _userManager;
-        public ManageUsersController(UserManager<NventoryUser> userManager)
+        private IUsersRepository _usersRepository;
+
+        public ManageUsersController(IUsersRepository usersRepository)
         {
-            _userManager = userManager;
+            _usersRepository = usersRepository;
         }
         // GET: ManageUsers
         public async Task<IActionResult> Index()
         {            
-            return View(await _userManager.Users.ToListAsync());
+            return View(await _usersRepository.GetUsersAsync());
         }
 
         //// GET: ManageUsers/Details/5
