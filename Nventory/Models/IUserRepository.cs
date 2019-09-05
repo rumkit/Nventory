@@ -7,6 +7,7 @@ namespace Nventory.Models
 {
     public interface IUsersRepository
     {        
-        Task<IEnumerable<UserModel>> GetUsersAsync();
+        Task<IEnumerable<UserViewModel>> GetUsersAsync();
+        Task<bool> CreateUserAsync(UserViewModel user);
     }
 }

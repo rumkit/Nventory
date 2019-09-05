@@ -26,6 +26,29 @@ namespace Nventory.Controllers
             return View(await _usersRepository.GetUsersAsync());
         }
 
+        //// GET: ManageUsers/Create                
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        //// POST: ManageUsers/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName,Password,IsAdmin")] UserViewModel user)
+        {
+            bool result = false;
+            if (ModelState.IsValid)
+            {
+                result = await _usersRepository.CreateUserAsync(user);
+            }
+            if(result)
+                return RedirectToAction(nameof(Index));
+            return View(user);
+        }
+
+        
+
         //// GET: ManageUsers/Details/5
         //public ActionResult Details(int id)
         //{
@@ -36,23 +59,6 @@ namespace Nventory.Controllers
         //public ActionResult Create()
         //{
         //    return View();
-        //}
-
-        //// POST: ManageUsers/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction(nameof(IndexAsync));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
         //}
 
         //// GET: ManageUsers/Edit/5

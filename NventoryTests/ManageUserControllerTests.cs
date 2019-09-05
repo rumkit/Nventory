@@ -26,29 +26,29 @@ namespace NventoryTests
         {
             var result = await _controller.Index();
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<UserModel>>(
+            var model = Assert.IsAssignableFrom<IEnumerable<UserViewModel>>(
                 viewResult.ViewData.Model);
             Assert.Equal(3, model.Count());
         }
 
 
-        private IEnumerable<UserModel> GetUsers()
+        private IEnumerable<UserViewModel> GetUsers()
         {
-            return new List<UserModel>()
+            return new List<UserViewModel>()
             {
-                new UserModel()
+                new UserViewModel()
                 {
                     Name = "Alex",
                     Email = "alex@example.com",
                     IsAdmin = true
                 },
-                new UserModel()
+                new UserViewModel()
                 {
                     Name = "John",
                     Email = "john@example.com",
                     IsAdmin = false
                 },
-                new UserModel()
+                new UserViewModel()
                 {
                     Name = "Sam",
                     Email = "sam@example.com",
