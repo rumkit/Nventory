@@ -35,11 +35,16 @@
                                         </td>
                                         <td>@user.Email</td>
                                         <td>
-                                            <span>
-                                                <a class="btn btn-info" asp-area="" asp-controller="ManageUsers"
-                                                   asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
-                                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
-                                            </span>
+                                            <div class="btn-group">
+                                                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                   
+                                                    ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" asp-area="" asp-controller="ManageUsers"
+                                                       asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
+                                                    <button class="dropdown-item" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
+                                                </div>
+                                            </div>                                            
                                         </td>
                                     </tr>
                                 }
@@ -107,4 +112,8 @@
 
     </script>
     <partial name="_ValidationScriptsPartial" />
+}
+@section css
+{
+<link rel="stylesheet" href="~/css/dropdown.css" />
 }
