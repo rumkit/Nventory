@@ -60,3 +60,8 @@ html {
     width: 20px;
     height: 20px;
 }
+
+.form-group.required .control-label:after {
+    content: " *";
+    color: red;
+}

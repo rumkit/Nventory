@@ -37,13 +37,15 @@ namespace Nventory.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName,Password,IsAdmin")] UserViewModel user)
         {
-            bool result = false;
+            Result result = new Result(false);
             if (ModelState.IsValid)
             {
-                result = await _usersRepository.CreateUserAsync(user);
+                result = await _usersRepository.CreateUserAsync(user).ConfigureAwait(false);
             }
-            if(result)
+            if(result.Succeeded)
                 return RedirectToAction(nameof(Index));
+            if(result.ErrorsList != null)
+                ViewData["errors"] = result.ErrorsList;
             return View(user);
         }
 

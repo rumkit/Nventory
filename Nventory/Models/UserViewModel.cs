@@ -14,11 +14,26 @@ namespace Nventory.Models
         {
             Id = user.Id;
             UserName = user.UserName;
-            Email = user.NormalizedEmail;
+            Email = user.Email;
             Name = user.Name;
             Surname = user.Surname;
             Patronymic = user.Patronymic;
             StaffNumber = user.StaffNumber;
+        }
+
+        public NventoryUser ToIdentityUser()
+        {
+            return new NventoryUser ()
+            {
+                Id = this.Id,
+                UserName = this.UserName,
+                Email = this.Email,
+                Name = this.Name,
+                Surname = this.Surname,
+                Patronymic = this.Patronymic,
+                StaffNumber = this.StaffNumber
+            };
+
         }
 
         public string Id { get; set; }

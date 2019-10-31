@@ -8,6 +8,6 @@ namespace Nventory.Models
     public interface IUsersRepository
     {        
         Task<IEnumerable<UserViewModel>> GetUsersAsync();
-        Task<bool> CreateUserAsync(UserViewModel user);
+        Task<Result> CreateUserAsync(UserViewModel user);
     }
 }

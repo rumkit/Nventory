@@ -18,24 +18,28 @@ namespace Nventory.Models
             _roleManager = roleManager;
         }
 
-        public Task<bool> CreateUserAsync(UserViewModel user)
+        public async Task<Result> CreateUserAsync(UserViewModel user)
         {
-            throw new NotImplementedException();
+            if(user == null)
+                throw new ArgumentNullException(nameof(user));
+            var newUser = user.ToIdentityUser();
+            var result  = await _userManager.CreateAsync(newUser, user.Password).ConfigureAwait(false);
+            return new Result(result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
         {
             var identityUsers = await _userManager.Users.ToListAsync();
             var userModels = new List<UserViewModel>();
-            foreach(var user in identityUsers)
+            foreach (var user in identityUsers)
             {
                 var userModel = new UserViewModel(user)
                 {
-                    IsAdmin = await _userManager.IsInRoleAsync(user,"Admin")
+                    IsAdmin = await _userManager.IsInRoleAsync(user, "Admin")
                 };
                 userModels.Add(userModel);
             }
             return userModels;
-        }        
+        }
     }
 }
