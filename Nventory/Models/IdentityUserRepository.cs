@@ -27,6 +27,20 @@ namespace Nventory.Models
             return new Result(result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
+        public async Task<Result> DeleteUserAsync(string id)
+        {
+            if(string.IsNullOrEmpty(id))
+                throw new ArgumentException(nameof(id));
+            var userToDelete = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
+            if(userToDelete == null)
+                throw new NullReferenceException("unable to find user with given id");
+            var result = await _userManager.DeleteAsync(userToDelete).ConfigureAwait(false);
+            return new Result(result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
+        }
+
+
+    
+
         public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
         {
             var identityUsers = await _userManager.Users.ToListAsync();

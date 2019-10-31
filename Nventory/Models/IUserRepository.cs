@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 namespace Nventory.Models
 {
     public interface IUsersRepository
-    {        
+    {       
         Task<IEnumerable<UserViewModel>> GetUsersAsync();
         Task<Result> CreateUserAsync(UserViewModel user);
+        Task<Result> DeleteUserAsync(string id);
     }
 }

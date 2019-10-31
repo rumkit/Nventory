@@ -22,7 +22,7 @@ namespace Nventory.Controllers
         }
         // GET: ManageUsers
         public async Task<IActionResult> Index()
-        {            
+        {
             return View(await _usersRepository.GetUsersAsync());
         }
 
@@ -42,14 +42,26 @@ namespace Nventory.Controllers
             {
                 result = await _usersRepository.CreateUserAsync(user).ConfigureAwait(false);
             }
-            if(result.Succeeded)
+            if (result.Succeeded)
                 return RedirectToAction(nameof(Index));
-            if(result.ErrorsList != null)
+            if (result.ErrorsList != null)
                 ViewData["errors"] = result.ErrorsList;
             return View(user);
         }
 
-        
+        // POST: ManageUsers/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string id, IFormCollection collection)
+        {
+
+            var result = await _usersRepository.DeleteUserAsync(id).ConfigureAwait(false);        
+            
+            if (result.Error && result.ErrorsList != null)
+                ViewData["errors"] = result.ErrorsList;
+            return RedirectToAction(nameof(Index));
+            
+        }
 
         //// GET: ManageUsers/Details/5
         //public ActionResult Details(int id)
@@ -92,21 +104,6 @@ namespace Nventory.Controllers
         //    return View();
         //}
 
-        //// POST: ManageUsers/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
 
-        //        return RedirectToAction(nameof(IndexAsync));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }
