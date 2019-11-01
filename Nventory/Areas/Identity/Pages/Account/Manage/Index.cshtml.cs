@@ -16,16 +16,16 @@ namespace Nventory.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<NventoryUser> _userManager;
         private readonly SignInManager<NventoryUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;       
 
         public IndexModel(
             UserManager<NventoryUser> userManager,
-            SignInManager<NventoryUser> signInManager,
+            SignInManager<NventoryUser> signInManager,            
             IEmailSender emailSender)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _emailSender = emailSender;
+            _signInManager = signInManager;            
+            _emailSender = emailSender;            
         }
 
         public string Username { get; set; }
@@ -47,6 +47,10 @@ namespace Nventory.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public string Name { get;set;}
+            public string Surname { get; set; }
+            public string Patronymic { get;set;}
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -59,14 +63,17 @@ namespace Nventory.Areas.Identity.Pages.Account.Manage
 
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);            
 
             Username = userName;
 
             Input = new InputModel
             {
                 Email = email,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Name = user.Name,
+                Surname = user.Surname,
+                Patronymic = user.Patronymic             
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -109,10 +116,44 @@ namespace Nventory.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            if(Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+                var setNameResult = await _userManager.UpdateAsync(user);
+                
+                if (!setNameResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Unexpected error occured while saving user profile");
+                }
+            }
+
+            if (Input.Surname != user.Surname)
+            {
+                user.Surname = Input.Surname;
+                var setNameResult = await _userManager.UpdateAsync(user);
+
+                if (!setNameResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Unexpected error occured while saving user profile");
+                }
+            }
+
+            if (Input.Patronymic != user.Patronymic)
+            {
+                user.Patronymic = Input.Patronymic;
+                var setNameResult = await _userManager.UpdateAsync(user);
+
+                if (!setNameResult.Succeeded)
+                {
+                    throw new InvalidOperationException("Unexpected error occured while saving user profile");
+                }
+            }
+
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
-        }
+        }        
 
         public async Task<IActionResult> OnPostSendVerificationEmailAsync()
         {

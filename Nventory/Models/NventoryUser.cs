@@ -4,10 +4,10 @@ namespace Nventory.Models
 {
     public class NventoryUser : IdentityUser
     {
-        public string Name;
-        public string Surname;
-        public string Patronymic;
-        public string StaffNumber;
+        public string Name {get;set; }
+        public string Surname { get;set;}
+        public string Patronymic { get;set;}
+        public string StaffNumber { get;set;}
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Nventory.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,15 @@ namespace Nventory.Models
 {
     public class IdentityUserRepository : IUsersRepository
     {
-        UserManager<NventoryUser> _userManager;
-        RoleManager<NventoryRole> _roleManager;
+        readonly UserManager<NventoryUser> _userManager;
+        readonly RoleManager<NventoryRole> _roleManager;
+        readonly ApplicationDbContext _context;
 
-        public IdentityUserRepository(UserManager<NventoryUser> userManager, RoleManager<NventoryRole> roleManager)
+        public IdentityUserRepository(UserManager<NventoryUser> userManager, RoleManager<NventoryRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public async Task<Result> CreateUserAsync(UserViewModel user)
@@ -38,8 +41,11 @@ namespace Nventory.Models
             return new Result(result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
-
-    
+        public async Task<UserViewModel> GetUserAsync(string id)
+        {
+            var identityUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);                        
+            return new UserViewModel(identityUser);
+        }
 
         public async Task<IEnumerable<UserViewModel>> GetUsersAsync()
         {
@@ -54,6 +60,18 @@ namespace Nventory.Models
                 userModels.Add(userModel);
             }
             return userModels;
+        }
+
+        public async Task<Result> UpdateUserAsync(UserViewModel user)
+        {
+            var identityUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == user.Id);
+            identityUser.Name = user.Name;
+            identityUser.Surname = user.Surname;
+            identityUser.Patronymic = user.Patronymic;
+            identityUser.StaffNumber = user.StaffNumber;
+            identityUser.Email = user.Email;
+            var result = await _userManager.UpdateAsync(identityUser);                        
+            return new Result(result.Succeeded);
         }
     }
 }

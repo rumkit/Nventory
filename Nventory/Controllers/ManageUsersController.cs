@@ -35,7 +35,7 @@ namespace Nventory.Controllers
         //// POST: ManageUsers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName,Password,IsAdmin")] UserViewModel user)
+        public async Task<IActionResult> Create([Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName,Password")] UserViewModel user)
         {
             Result result = new Result(false);
             if (ModelState.IsValid)
@@ -63,6 +63,33 @@ namespace Nventory.Controllers
             
         }
 
+        // GET: ManageUsers/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            return View(await _usersRepository.GetUserAsync(id));
+        }
+
+        // POST: ManageUsers/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName")] UserViewModel userViewModel)
+        {
+            try
+            {
+                userViewModel.Id = id;
+                var result = await _usersRepository.UpdateUserAsync(userViewModel);
+                if(result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                if (result.ErrorsList != null)
+                    ViewData["errors"] = result.ErrorsList;
+                return View(userViewModel);
+            }
+            catch
+            {
+                return View(userViewModel);
+            }
+        }
+
         //// GET: ManageUsers/Details/5
         //public ActionResult Details(int id)
         //{
@@ -75,28 +102,7 @@ namespace Nventory.Controllers
         //    return View();
         //}
 
-        //// GET: ManageUsers/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
 
-        //// POST: ManageUsers/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction(nameof(IndexAsync));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
         //// GET: ManageUsers/Delete/5
         //public ActionResult Delete(int id)

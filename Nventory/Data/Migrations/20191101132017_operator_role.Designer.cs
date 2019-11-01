@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nventory.Data;
 
 namespace Nventory.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191101132017_operator_role")]
+    partial class operator_role
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,7 +145,7 @@ namespace Nventory.Data.Migrations
                         new
                         {
                             Id = "C8C481A4-FBFA-4CB4-9CBC-4E00FBD94EDA",
-                            ConcurrencyStamp = "385e4074-77ab-4b26-9ab9-c0511cd2f3ed",
+                            ConcurrencyStamp = "5ada1ddd-82fc-4590-ade2-8c3826ae5e20",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -168,8 +170,6 @@ namespace Nventory.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("Name");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -178,17 +178,11 @@ namespace Nventory.Data.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<string>("Patronymic");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("StaffNumber");
-
-                    b.Property<string>("Surname");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -212,13 +206,13 @@ namespace Nventory.Data.Migrations
                         {
                             Id = "646166C4-5E06-4976-AB63-6B0957E06F5F",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f58a677-9c2d-426f-a760-b96b19608701",
+                            ConcurrencyStamp = "7fbcc0bf-c84a-45ea-adea-1242a1021dc5",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@example.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI3n5S6CdEtQqNkQlIUyAHYKtQ86yTUDC9eHXeYiKhZUBXBuJdFHcQ8bxCOZY+xM1w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHnsOvUUOlNndHFXLn1iPvzynKU+AKhnuj+jd0p+4dGp/kFMIeTY5wy//gS/ZEqCiA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
