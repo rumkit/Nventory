@@ -90,6 +90,14 @@ namespace Nventory.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = await _usersRepository.GetUserAsync(id);
+            return PartialView(user);
+        }
+
+
         //// GET: ManageUsers/Details/5
         //public ActionResult Details(int id)
         //{

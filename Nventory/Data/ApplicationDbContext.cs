@@ -48,5 +48,7 @@ namespace Nventory.Data
                 UserId = adminUserId
             });
         }
+
+        public DbSet<Nventory.Models.UserViewModel> UserViewModel { get; set; }
     }    
 }
