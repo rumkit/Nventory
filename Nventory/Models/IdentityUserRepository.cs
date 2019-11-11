@@ -44,7 +44,7 @@ namespace Nventory.Models
         public async Task<UserViewModel> GetUserAsync(string id)
         {
             var identityUser = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == id);                        
-            return new UserViewModel(identityUser);
+            return identityUser == null ? null : new UserViewModel(identityUser);
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsersAsync()

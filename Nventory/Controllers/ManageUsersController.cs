@@ -94,6 +94,8 @@ namespace Nventory.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var user = await _usersRepository.GetUserAsync(id);
+            if(user == null)
+                return new NotFoundResult();
             return PartialView(user);
         }
 
