@@ -83,7 +83,7 @@ namespace Nventory.Controllers
             try
             {
                 userViewModel.Id = id;
-                var result = await _usersRepository.UpdateUserAsync(userViewModel, userViewModel.SelectedRoles);
+                var result = await _usersRepository.UpdateUserAsync(userViewModel, userViewModel.SelectedRoles ?? new List<string>());
                 if(result.Succeeded)
                     return RedirectToAction(nameof(Index));
                 if (result.ErrorsList != null)
