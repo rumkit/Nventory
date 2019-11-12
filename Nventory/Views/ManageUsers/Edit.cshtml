@@ -1,13 +1,14 @@
-﻿@model Nventory.Models.UserViewModel
+﻿@using Nventory.ViewModels
+@model UserViewModel
 
 @{
     ViewData["Title"] = "Edit user";
 }
 
 
-@if(ViewData["errors"] != null)
-{ 
-    foreach(var error in ViewData["errors"] as IEnumerable<string>)
+@if (ViewData["errors"] != null)
+{
+    foreach (var error in ViewData["errors"] as IEnumerable<string>)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             @error
@@ -24,66 +25,81 @@
 
 <hr />
 <form asp-action="Edit">
-    <div class="row justify-content-between">
-        <div class="col-md-4">
-            <div class="form-group required">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" tabindex="1" disabled/>
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
+    <div class="row">
+        <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-login-tab" data-toggle="pill" href="#v-pills-login" role="tab" aria-controls="v-pills-login" aria-selected="true">Login</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+            <a class="nav-link" id="v-pills-roles-tab" data-toggle="pill" href="#v-pills-roles" role="tab" aria-controls="v-pills-roles" aria-selected="false">Roles</a>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Surname" class="control-label"></label>
-                <input asp-for="Surname" class="form-control" tabindex="5"/>
-                <span asp-validation-for="Surname" class="text-danger"></span>
-            </div>
-        </div>       
-        <div class="col-md-2"></div>
-    </div>
-    <div class="row justify-content-between">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" tabindex="3" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group ">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" tabindex="6"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-    <div class="row justify-content-between">
 
-        <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StaffNumber" class="control-label"></label>
-                <input asp-for="StaffNumber" class="form-control" tabindex="4" />
-                <span asp-validation-for="StaffNumber" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Patronymic" class="control-label"></label>
-                <input asp-for="Patronymic" class="form-control" tabindex="7"/>
-                <span asp-validation-for="Patronymic" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2"></div>
-    </div>    
+        <div class="tab-content col-md-6" id="v-pills-tabContent">
+            @* Login tab *@
+            <div class="tab-pane fade show active" id="v-pills-login" role="tabpanel" aria-labelledby="v-pills-login-tab">
+                <div class="form-group required">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" tabindex="1" disabled />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
 
-    <div class="form-group">
-        <input type="submit" style="margin-top:30px" value="Save" class="btn btn-primary" />
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" tabindex="3" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="StaffNumber" class="control-label"></label>
+                    <input asp-for="StaffNumber" class="form-control" tabindex="4" />
+                    <span asp-validation-for="StaffNumber" class="text-danger"></span>
+                </div>
+            </div>
+            @* Profile tab *@
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label"></label>
+                    <input asp-for="Surname" class="form-control" tabindex="5" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group ">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" tabindex="6" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Patronymic" class="control-label"></label>
+                    <input asp-for="Patronymic" class="form-control" tabindex="7" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
+                </div>
+            </div>
+            @*Roles tab*@
+            <div class="tab-pane fade" id="v-pills-roles" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                @foreach (var item in Model.AvailableRoles)
+                {
+                    <div class="form-check">
+                        <label>
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="SelectedRoles"
+                                   value="@item.Value"
+                                   @if (Model.Roles.Any(r => r.Name == item.Value)) { <text> checked </text> } /> @item.Text
+                            </label>
+                        </div>
+                    }
+            </div>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="form-group">
+            <input type="submit" style="margin-top:30px" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+
 </form>
 
-<div>
+
+<div class="row">
     <a asp-action="Index">Back to List</a>
 </div>
 

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Nventory.Models;
+using Nventory.ViewModels;
 
 namespace Nventory.Controllers
 {
@@ -23,7 +25,7 @@ namespace Nventory.Controllers
         // GET: ManageUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _usersRepository.GetUsersAsync());
+            return View((await _usersRepository.GetUsersAsync()).Select(x => new UserViewModel(x)));
         }
 
         //// GET: ManageUsers/Create                
@@ -40,7 +42,7 @@ namespace Nventory.Controllers
             Result result = new Result(false);
             if (ModelState.IsValid)
             {
-                result = await _usersRepository.CreateUserAsync(user).ConfigureAwait(false);
+                result = await _usersRepository.CreateUserAsync(user, user.Password).ConfigureAwait(false);
             }
             if (result.Succeeded)
                 return RedirectToAction(nameof(Index));
@@ -66,18 +68,22 @@ namespace Nventory.Controllers
         // GET: ManageUsers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            return View(await _usersRepository.GetUserAsync(id));
+            var vm = new UserViewModel(await _usersRepository.GetUserAsync(id));
+            vm.AvailableRoles = (await _usersRepository.GetAvailableRolesAsync())
+                .Select(r => new SelectListItem(){ Text = r.Name, Value = r.Name })
+                .ToList();
+            return View(vm);
         }
 
         // POST: ManageUsers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("StaffNumber,Name,Surname,Patronymic,Email,UserName")] UserViewModel userViewModel)
+        public async Task<IActionResult> Edit(string id, UserViewModel userViewModel)
         {
             try
             {
                 userViewModel.Id = id;
-                var result = await _usersRepository.UpdateUserAsync(userViewModel);
+                var result = await _usersRepository.UpdateUserAsync(userViewModel, userViewModel.SelectedRoles);
                 if(result.Succeeded)
                     return RedirectToAction(nameof(Index));
                 if (result.ErrorsList != null)
@@ -96,29 +102,8 @@ namespace Nventory.Controllers
             var user = await _usersRepository.GetUserAsync(id);
             if(user == null)
                 return new NotFoundResult();
-            return PartialView(user);
-        }
-
-
-        //// GET: ManageUsers/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: ManageUsers/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-
-
-        //// GET: ManageUsers/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+            return PartialView(new UserViewModel(user));
+        }    
 
 
     }

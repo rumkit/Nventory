@@ -15,7 +15,7 @@ namespace Nventory.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -143,9 +143,16 @@ namespace Nventory.Data.Migrations
                         new
                         {
                             Id = "C8C481A4-FBFA-4CB4-9CBC-4E00FBD94EDA",
-                            ConcurrencyStamp = "385e4074-77ab-4b26-9ab9-c0511cd2f3ed",
+                            ConcurrencyStamp = "299a088e-474d-49e5-8e2b-3e1d54380867",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "090BF443-C00C-4748-A860-E6DE80EBDEED",
+                            ConcurrencyStamp = "6363ddd8-307b-440a-b616-d250761273ba",
+                            Name = "Operator",
+                            NormalizedName = "OPERATOR"
                         });
                 });
 
@@ -212,13 +219,13 @@ namespace Nventory.Data.Migrations
                         {
                             Id = "646166C4-5E06-4976-AB63-6B0957E06F5F",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7f58a677-9c2d-426f-a760-b96b19608701",
+                            ConcurrencyStamp = "e5260626-a22b-41fe-9bcc-fb5a9aa10ecd",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@example.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI3n5S6CdEtQqNkQlIUyAHYKtQ86yTUDC9eHXeYiKhZUBXBuJdFHcQ8bxCOZY+xM1w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHf6o+1Bz6h0fQJSZ7Z+WL+X5o3u8lsUYDqr5LFtMtZ3femeOx/nuDtNnjgSyfOdWg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

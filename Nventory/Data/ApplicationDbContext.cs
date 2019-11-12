@@ -13,7 +13,7 @@ namespace Nventory.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-        }
+        }        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -22,11 +22,18 @@ namespace Nventory.Data
             const string adminRoleId = "C8C481A4-FBFA-4CB4-9CBC-4E00FBD94EDA";
             const string adminUserId = "646166C4-5E06-4976-AB63-6B0957E06F5F";
             
-            builder.Entity<NventoryRole>().HasData(new IdentityRole
+            builder.Entity<NventoryRole>().HasData(new NventoryRole
             {
                 Id = adminRoleId,
                 Name = "Admin",
-                NormalizedName = "Admin".ToUpper()
+                NormalizedName = "Admin".ToUpper()                
+            });
+
+            builder.Entity<NventoryRole>().HasData(new NventoryRole
+            {
+                Id = "090BF443-C00C-4748-A860-E6DE80EBDEED",
+                Name = "Operator",
+                NormalizedName = "Operator".ToUpper()                
             });
 
             var hasher = new PasswordHasher<NventoryUser>();
@@ -39,7 +46,7 @@ namespace Nventory.Data
                 NormalizedEmail = "admin@example.com",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "themoststrongpassword"),
-                SecurityStamp = string.Empty
+                SecurityStamp = string.Empty                
             });
 
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
@@ -47,8 +54,6 @@ namespace Nventory.Data
                 RoleId = adminRoleId,
                 UserId = adminUserId
             });
-        }
-
-        public DbSet<Nventory.Models.UserViewModel> UserViewModel { get; set; }
+        }        
     }    
 }

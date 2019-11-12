@@ -1,16 +1,20 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Nventory.Models;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-namespace Nventory.Models
+namespace Nventory.ViewModels
 {
-    public class UserViewModel
+    public class UserViewModel : INventoryUser
     {
         public UserViewModel()
         {
 
         }
 
-        public UserViewModel(NventoryUser user)
+        public UserViewModel(INventoryUser user)
         {
             Id = user.Id;
             UserName = user.UserName;
@@ -19,26 +23,12 @@ namespace Nventory.Models
             Surname = user.Surname;
             Patronymic = user.Patronymic;
             StaffNumber = user.StaffNumber;
-        }
-
-        public NventoryUser ToIdentityUser()
-        {
-            return new NventoryUser ()
-            {
-                Id = this.Id,
-                UserName = this.UserName,
-                Email = this.Email,
-                Name = this.Name,
-                Surname = this.Surname,
-                Patronymic = this.Patronymic,
-                StaffNumber = this.StaffNumber
-            };
-
-        }
+            Roles = user.Roles;
+        }      
 
         public string Id { get; set; }
         [Required]
-        [DisplayName("Login")]        
+        [DisplayName("Login")]
         public string UserName { get; set; }
         [Required]
         [DisplayName("Password")]
@@ -54,6 +44,11 @@ namespace Nventory.Models
         [DisplayName("Staff id")]
         public string StaffNumber { get; set; }
         [DisplayName("Administrator")]
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin => Roles?.Any(role => role.Name == "Admin") ?? false;
+
+        public IList<INventoryRole> Roles { get; set; }
+
+        public IList<string> SelectedRoles { get;set;}
+        public IList<SelectListItem> AvailableRoles { get;set;}
     }
 }

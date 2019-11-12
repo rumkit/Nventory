@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Nventory.Controllers;
 using Nventory.Models;
+using Nventory.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,20 +40,17 @@ namespace NventoryTests
                 new UserViewModel()
                 {
                     Name = "Alex",
-                    Email = "alex@example.com",
-                    IsAdmin = true
+                    Email = "alex@example.com"
                 },
                 new UserViewModel()
                 {
                     Name = "John",
-                    Email = "john@example.com",
-                    IsAdmin = false
+                    Email = "john@example.com"                    
                 },
                 new UserViewModel()
                 {
                     Name = "Sam",
-                    Email = "sam@example.com",
-                    IsAdmin = false
+                    Email = "sam@example.com"                    
                 }
             };
         }
