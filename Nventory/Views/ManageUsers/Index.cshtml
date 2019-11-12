@@ -16,6 +16,7 @@
                         <table id="bootstrap-data-table-export" class="table table-bordered table-hover table-condensed display" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th class="column-align-left">Login</th>
                                     <th class="column-align-left">Name</th>
                                     <th class="column-align-left">E-mail</th>
                                     <th data-orderable="false"></th>
@@ -24,31 +25,32 @@
                             <tbody>
                                 @foreach (var user in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            <span>
-                                                @user.UserName
-                                                @if (user.IsAdmin)
-                                                {
-                                                    <span class="badge badge-pill badge-danger superscript">admin</span>
-                                                }
-                                            </span>
-                                        </td>
-                                        <td>@user.Email</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <button class="dropdown-item" data-toggle="modal" data-target="#detailsUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-address-card"></i> Details</button>
-                                                    <a class="dropdown-item" asp-area="" asp-controller="ManageUsers"
-                                                       asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
-                                                    <button class="dropdown-item" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
-                                                </div>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            @user.UserName
+                                            @if (user.IsAdmin)
+                                            {
+                                                <span class="badge badge-pill badge-danger superscript">admin</span>
+                                            }
+                                        </span>
+                                    </td>
+                                    <td>@($"{user.Surname} {user.Name} {user.Patronymic}")</td>
+                                    <td>@user.Email</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                ...
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <button class="dropdown-item" data-toggle="modal" data-target="#detailsUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-address-card"></i> Details</button>
+                                                <a class="dropdown-item" asp-area="" asp-controller="ManageUsers"
+                                                   asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
+                                                <button class="dropdown-item" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
