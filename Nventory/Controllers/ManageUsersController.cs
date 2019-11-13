@@ -119,6 +119,7 @@ namespace Nventory.Controllers
             using(var writer = new StreamWriter(ms, Encoding.UTF8))
             using(var csv = new CsvWriter(writer))
             {
+                csv.Configuration.Delimiter = ";";
                 csv.WriteRecords(users);             
                 var cd = new System.Net.Mime.ContentDisposition
                 {
@@ -150,6 +151,7 @@ namespace Nventory.Controllers
                 {                    
                     csv.Configuration.HeaderValidated = null;
                     csv.Configuration.MissingFieldFound = null;
+                    csv.Configuration.Delimiter = ";";
                     var users = csv.GetRecords<NUser>();
                     foreach(var user in users
                         .Where(u => !string.IsNullOrWhiteSpace(u.Password) && !string.IsNullOrWhiteSpace(u.UserName)))
