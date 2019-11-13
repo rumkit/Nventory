@@ -1,0 +1,24 @@
+﻿@model Nventory.ViewModels.UserViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <form method="post" enctype="multipart/form-data" asp-controller="ManageUsers" asp-action="Import">
+        <div class="form-group">
+            <div class="row">
+                <p>Upload .csv file with users to import</p>
+                <div>
+                <input type="submit" id="importUsers" class="btn btn-primary" value="Upload" />
+                <input type="file" name="formFile" accept=".csv" />
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                
+            </div>
+        </div>
+    </form>
+</div>

@@ -11,6 +11,8 @@
                 <div class="card">
                     <div class="card-header">
                         <a class="btn btn-info" asp-area="" asp-controller="ManageUsers" asp-action="Create"><i class="fa fa-plus"></i> Add new</a>
+                        <a class="btn btn-info" asp-area="" asp-controller="ManageUsers" asp-action="Export"><i class="fa fa-download"></i> Download csv</a>
+                        <button class="btn btn-info" data-toggle="modal" data-target="#importUsersModal"><i class="fa fa-upload"></i> Import</button>
                     </div>
                     <div class="card-body">
                         <table id="bootstrap-data-table-export" class="table table-bordered table-hover table-condensed display" style="width:100%">
@@ -25,32 +27,32 @@
                             <tbody>
                                 @foreach (var user in Model)
                                 {
-                                <tr>
-                                    <td>
-                                        <span>
-                                            @user.UserName
-                                            @if (user.IsAdmin)
-                                            {
-                                                <span class="badge badge-pill badge-danger superscript">admin</span>
-                                            }
-                                        </span>
-                                    </td>
-                                    <td>@($"{user.Surname} {user.Name} {user.Patronymic}")</td>
-                                    <td>@user.Email</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                ...
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <button class="dropdown-item" data-toggle="modal" data-target="#detailsUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-address-card"></i> Details</button>
-                                                <a class="dropdown-item" asp-area="" asp-controller="ManageUsers"
-                                                   asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
-                                                <button class="dropdown-item" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                @user.UserName
+                                                @if (user.IsAdmin)
+                                                {
+                                                    <span class="badge badge-pill badge-danger superscript">admin</span>
+                                                }
+                                            </span>
+                                        </td>
+                                        <td>@($"{user.Surname} {user.Name} {user.Patronymic}")</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <button class="dropdown-item" data-toggle="modal" data-target="#detailsUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-address-card"></i> Details</button>
+                                                    <a class="dropdown-item" asp-area="" asp-controller="ManageUsers"
+                                                       asp-action="Edit" asp-route-id=@user.Id><i class="fa fa-edit"></i> Edit</a>
+                                                    <button class="dropdown-item" data-toggle="modal" data-target="#deleteUserModal" data-userName="@user.UserName" data-userId="@user.Id"><i class="fa fa-trash"></i> Remove</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -88,6 +90,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body align-content-center">
+                <div id="modalAsyncContent"></div>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Users import modal -->
+<div class="modal fade" id="importUsersModal" tabindex="-1" role="dialog" aria-labelledby="importUsersModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import users</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -142,8 +162,20 @@
                     }
                 })
                 var modal = $(this)
-                modal.find('.modal-title').text(userName + ' info')
-                //modal.find('.modal-body div#modalcontent').load('details/' + userId)
+                modal.find('.modal-title').text(userName + ' info')                
+            })
+
+            $('#importUsersModal').on('show.bs.modal', function (event) {
+                
+                $.ajax({
+                    type: 'GET',
+                    url: "ManageUsers/Import",                    
+                    dataType: "html",
+                    complete: function (data) {
+                        modal.find('.modal-body div#modalAsyncContent').html(data.responseText)
+                    }
+                })
+                var modal = $(this)                
             })
 
         });
